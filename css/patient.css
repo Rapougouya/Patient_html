@@ -1,0 +1,397 @@
+/* Style global */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Conteneur principal */
+.dashboard-container {
+    display: flex;
+}
+h1 {
+    margin-left: 70px;
+}
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background:rgb(27, 1, 175);
+    color: white;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar nav ul li.active {
+    background: #1a252f;
+    border-radius: 5px;
+}
+
+/* Contenu principal */
+.main-content {
+    margin-left: 260px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-patient-btn {
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.add-patient-btn:hover {
+    background: #0056b3;
+}
+
+/* Barre de recherche */
+.search-bar {
+    margin-bottom: 20px;
+    margin-left: 30px;
+    width: 50%;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Tableau des patients */
+.patients-table {
+    width: 95%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 30px;
+}
+
+.patients-table th, .patients-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.patients-table th {
+    background: #007bff;
+    color: white;
+}
+
+.patients-table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Boutons d'action */
+.edit-btn, .delete-btn, .view-btn {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.edit-btn {
+    background: #ffc107;
+    color: black;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.view-btn {
+    background: #28a745;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #e0a800;
+}
+
+.delete-btn:hover {
+    background: #c82333;
+}
+
+.view-btn:hover {
+    background: #218838;
+}
+
+/* Pop-up */
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup {
+    background: rgb(253, 253, 253);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    margin-left:50px;
+    text-align: center;
+}
+
+.popup input {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup button {
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px;
+    transition: 0.3s;
+}
+
+.popup button:first-child {
+    background: #007bff;
+    color: white;
+}
+
+.popup button:first-child:hover {
+    background: #0056b3;
+}
+
+.popup button:last-child {
+    background: #dc3545;
+    color: white;
+}
+
+.popup button:last-child:hover {
+    background: #c82333;
+}
+
+/* Section de gestion des capteurs */
+.assign-capteur {
+    background: white;
+    padding: 20px;
+    margin-left:30px;
+    margin-right:20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.assign-capteur h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.assign-capteur form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.assign-capteur select, .assign-capteur button {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+}
+
+.assign-capteur button {
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.assign-capteur button:hover {
+    background: #0056b3;
+}
+
+/* Style des capteurs affichés */
+/* Conteneur flex pour les capteurs */
+.capteurs-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Style des capteurs affichés en "badges" */
+.capteur-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #eaf6ff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+/* Icônes à l'intérieur des capteurs */
+.capteur-info i {
+    color: #007bff;
+    font-size: 14px;
+}
+
+/* Bouton "Voir plus" */
+.show-capteurs-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.show-capteurs-btn:hover {
+    text-decoration: underline;
+}
+
+/* Capteurs cachés par défaut */
+.hidden-capteurs {
+    display: none;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Section de gestion des capteurs */
+.capteur-management {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.capteur-management select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.capteur-actions {
+    margin-top: 15px;
+}
+
+.capteur-actions button {
+    padding: 8px 12px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.capteur-actions button:first-of-type {
+    background: #f1c40f;
+    color: black;
+}
+
+.capteur-actions button:last-of-type {
+    background: #e74c3c;
+    color: white;
+}
+
+.capteur-actions.hidden {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        text-align: center;
+    }
+    .main-content {
+        margin-left: 0;
+        padding: 10px;
+    }
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .search-bar input {
+        width: 100%;
+    }
+    .users-table {
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        padding: 10px;
+    }
+    .sidebar h2 {
+        font-size: 20px;
+    }
+    .sidebar nav ul li a {
+        font-size: 16px;
+    }
+    .add-user-btn {
+        width: 100%;
+    }
+    .popup {
+        width: 90%;
+        padding: 15px;
+    }
+}

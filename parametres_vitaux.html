@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi des Paramètres Vitaux</title>
+    <link rel="stylesheet" href="css/vitau.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>GEST-PATIENT</h2>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Tableau de bord</a></li>
+                    <li><a href="patients.html"><i class="fa-solid fa-user-injured"></i> Gestion des patients</a></li>
+                    <li><a href="suivi.html"><i class="fa-solid fa-heart-pulse"></i> Suivi des paramètres vitaux</a></li>
+                    <li><a href="statistiques.html"><i class="fa-solid fa-chart-line"></i> Statistiques & Analyses</a></li>
+                    <li><a href="utilisateurs.html"><i class="fa-solid fa-users"></i> Gestion des utilisateurs</a></li>
+                    <li><a href="admin.html"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                    <li><a href="sauvegarde.html"><i class="fa-solid fa-file-export"></i> Export des Données</a></li>
+                </ul>  
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Suivi des Paramètres Vitaux</h1>
+            </header>
+
+            <div class="vital-signs">
+                <div class="card">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>Pression Artérielle</h3>
+                    <p><span id="pression">120/80</span> mmHg</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-lungs"></i>
+                    <h3>Fréquence Respiratoire</h3>
+                    <p><span id="respiration">16</span> cycles/min</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-weight"></i>
+                    <h3>Poids</h3>
+                    <p><span id="poids">75</span> kg</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-ruler-vertical"></i>
+                    <h3>Taille</h3>
+                    <p><span id="taille">1.75</span> m</p>
+                </div>
+            </div>
+
+            <div class="alerts-container">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Alertes</h2>
+                <div id="alerts"></div>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart-box">
+                    <canvas id="pressionChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <canvas id="poidsChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <canvas id="respirationChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <canvas id="tailleChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function generateRandomData() {
+            return [110, 115, 120, 130, 125, 118, 122];
+        }
+
+        function updateVitals() {
+            document.getElementById("pression").innerText = Math.floor(Math.random() * (130 - 110 + 1)) + 110 + "/" + Math.floor(Math.random() * (90 - 70 + 1)) + 70;
+            document.getElementById("respiration").innerText = Math.floor(Math.random() * (20 - 12 + 1)) + 12;
+            document.getElementById("poids").innerText = Math.floor(Math.random() * (90 - 60 + 1)) + 60;
+            document.getElementById("taille").innerText = (Math.random() * (1.85 - 1.60) + 1.60).toFixed(2);
+        }
+
+        setInterval(updateVitals, 5000);
+
+        function createChart(canvasId, label, color) {
+            new Chart(document.getElementById(canvasId), {
+                type: 'line',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'],
+                    datasets: [{
+                        label: label,
+                        data: generateRandomData(),
+                        borderColor: color,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        createChart('pressionChart', 'Pression Artérielle (mmHg)', 'red');
+        createChart('poidsChart', 'Poids (kg)', 'blue');
+        createChart('respirationChart', 'Fréquence Respiratoire', 'green');
+        createChart('tailleChart', 'Taille (m)', 'purple');
+    </script>
+</body>
+</html>

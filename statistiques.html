@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiques et Analyses</title>
+    <link rel="stylesheet" href="css/statistique.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>GEST-PATIENT</h2>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Tableau de bord</a></li>
+                    <li><a href="patients.html"><i class="fa-solid fa-user-injured"></i> Gestion des patients</a></li>
+                    <li><a href="suivi.html"><i class="fa-solid fa-heart-pulse"></i> Suivi des paramètres vitaux</a></li>
+                    <li><a href="statistiques.html"><i class="fa-solid fa-chart-line"></i> Statistiques & Analyses</a></li>
+                    <li><a href="utilisateurs.html"><i class="fa-solid fa-users"></i> Gestion des utilisateurs</a></li>
+                    <li><a href="admin.html"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                    <li><a href="sauvegarde.html"><i class="fa-solid fa-file-export"></i> Export des Données</a></li>
+                </ul>  
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Statistiques et Analyses</h1>
+            </header>
+
+            <div class="filters">
+                <label for="periode">Sélectionnez la période :</label>
+                <select id="periode">
+                    <option value="jour">Jour</option>
+                    <option value="semaine">Semaine</option>
+                    <option value="mois">Mois</option>
+                    <option value="annee">Année</option>
+                </select>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart-box">
+                    <h3>Évolution de la Pression Artérielle</h3>
+                    <canvas id="pressionChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>Variation du Poids</h3>
+                    <canvas id="poidsChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>Fréquence Respiratoire</h3>
+                    <canvas id="respirationChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>Prévisions de Santé</h3>
+                    <canvas id="predictionChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById("periode").addEventListener("change", function() {
+            alert("Chargement des données pour la période : " + this.value);
+            // Ici, vous pouvez ajouter la logique pour mettre à jour les graphiques
+        });
+
+        function generateRandomData() {
+            return [110, 115, 120, 130, 125, 118, 122];
+        }
+
+        function createChart(canvasId, label, color) {
+            new Chart(document.getElementById(canvasId), {
+                type: 'line',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'],
+                    datasets: [{
+                        label: label,
+                        data: generateRandomData(),
+                        borderColor: color,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        createChart('pressionChart', 'Pression Artérielle (mmHg)', 'red');
+        createChart('poidsChart', 'Poids (kg)', 'blue');
+        createChart('respirationChart', 'Fréquence Respiratoire', 'green');
+        createChart('predictionChart', 'Prévision de Santé', 'purple');
+    </script>
+</body>
+</html>

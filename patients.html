@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Patients</title>
+    <link rel="stylesheet" href="css/patient.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>GEST-PATIENT</h2>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Tableau de bord</a></li>
+                    <li><a href="patients.html"><i class="fa-solid fa-user-injured"></i> Gestion des patients</a></li>
+                    <li><a href="suivi.html"><i class="fa-solid fa-heart-pulse"></i> Suivi des paramètres vitaux</a></li>
+                    <li><a href="statistiques.html"><i class="fa-solid fa-chart-line"></i> Statistiques & Analyses</a></li>
+                    <li><a href="utilisateurs.html"><i class="fa-solid fa-users"></i> Gestion des utilisateurs</a></li>
+                    <li><a href="admin.html"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                    <li><a href="sauvegarde.html"><i class="fa-solid fa-file-export"></i> Export des Données</a></li>
+                </ul>                
+            </nav>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="main-content">
+            <header>
+                <h1>Gestion des Patients</h1>
+                <button class="add-patient-btn" onclick="openPopup()">+ Ajouter un patient</button>
+            </header>
+
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Rechercher un patient...">
+            </div>
+
+            <!-- Tableau des patients -->
+            <table class="patients-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Âge</th>
+                        <th>État de santé</th>
+                        <th>Capteurs</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="patientsBody">
+                    <tr>
+                        <td>Doe</td>
+                        <td>John</td>
+                        <td>45</td>
+                        <td>Stable</td>
+                        <td id="capteurs-1" class="capteurs-container">
+                            <span class="capteur-info"><i class="fa-solid fa-heart-pulse"></i> Rythme cardiaque</span>
+                            <span class="capteur-info"><i class="fa-solid fa-temperature-high"></i> Température</span>
+                        </td>
+                        <td>
+                            <button class="edit-btn">✏️ Modifier</button>
+                            <button class="delete-btn" onclick="deleteRow(this)">🗑 Supprimer</button>
+                            <button class="view-btn">👁 Voir</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Section pour assigner un capteur -->
+            <section class="assign-capteur">
+                <h2>Assigner un Capteur à un Patient</h2>
+                <form id="assignCapteurForm">
+                    <label>Patient :</label>
+                    <select id="patientSelect">
+                        <option value="1">John Doe</option>
+                        <option value="2">Jane Smith</option>
+                    </select>
+
+                    <label>Capteur :</label>
+                    <select id="capteurSelect">
+                        <option value="1">🩺 Rythme cardiaque</option>
+                        <option value="2">🌡 Température</option>
+                        <option value="3">💨 Saturation en oxygène</option>
+                    </select>
+
+                    <button type="submit">Associer</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <!-- Pop-up pour l'ajout d'un patient -->
+    <div class="popup-container" id="popup">
+        <div class="popup">
+            <h2>Ajouter un Patient</h2>
+            <label>Nom:</label>
+            <input type="text" id="nom">
+            <label>Prénom:</label>
+            <input type="text" id="prenom">
+            <label>Âge:</label>
+            <input type="number" id="age">
+            <button onclick="addPatient()">Ajouter</button>
+            <button onclick="closePopup()">Annuler</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.getElementById("searchInput").addEventListener("keyup", function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll(".patients-table tbody tr");
+            rows.forEach(row => {
+                let name = row.cells[0].textContent.toLowerCase();
+                let firstName = row.cells[1].textContent.toLowerCase();
+                row.style.display = (name.includes(filter) || firstName.includes(filter)) ? "" : "none";
+            });
+        });
+
+        function openPopup() {
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        function addPatient() {
+            let nom = document.getElementById("nom").value;
+            let prenom = document.getElementById("prenom").value;
+            let age = document.getElementById("age").value;
+            
+            if(nom && prenom && age) {
+                let table = document.getElementById("patientsBody");
+                let row = table.insertRow();
+                row.innerHTML = `<td>${nom}</td><td>${prenom}</td><td>${age}</td><td>Stable</td><td id="capteurs-${table.rows.length}">-</td>
+                                <td><button class="edit-btn">✏️ Modifier</button>
+                                <button class="delete-btn" onclick="deleteRow(this)">🗑 Supprimer</button>
+                                <button class="view-btn">👁 Voir</button></td>`;
+                closePopup();
+            }
+        }
+
+        function deleteRow(button) {
+            let row = button.parentElement.parentElement;
+            row.remove();
+        }
+
+        document.getElementById("assignCapteurForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            let patientId = document.getElementById("patientSelect").value;
+            let capteurText = document.getElementById("capteurSelect").options[document.getElementById("capteurSelect").selectedIndex].text;
+            
+            let patientCapteurCell = document.getElementById(`capteurs-${patientId}`);
+            
+            if (!patientCapteurCell.innerHTML.includes(capteurText)) {
+                patientCapteurCell.innerHTML += `<br><span class="capteur-info">${capteurText}</span>`;
+            }
+        });
+    </script>
+</body>
+</html>

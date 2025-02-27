@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>GEST-PATIENT</h2>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Tableau de bord</a></li>
+                    <li><a href="patients.html"><i class="fa-solid fa-user-injured"></i> Gestion des patients</a></li>
+                    <li><a href="suivi.html"><i class="fa-solid fa-heart-pulse"></i> Suivi des paramètres vitaux</a></li>
+                    <li><a href="statistiques.html"><i class="fa-solid fa-chart-line"></i> Statistiques & Analyses</a></li>
+                    <li><a href="utilisateurs.html"><i class="fa-solid fa-users"></i> Gestion des utilisateurs</a></li>
+                    <li><a href="admin.html"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                    <li><a href="sauvegarde.html"><i class="fa-solid fa-file-export"></i> Export des Données</a></li>
+                </ul>                
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Gestion des Utilisateurs</h1>
+                <button class="add-user-btn" onclick="openPopup()">+ Ajouter un utilisateur</button>
+            </header>
+
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Rechercher un utilisateur...">
+            </div>
+
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Email</th>
+                        <th>Rôle</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersBody">
+                    <tr>
+                        <td>Dupont</td>
+                        <td>Retoup</td>
+                        <td>dupont@example.com</td>
+                        <td>Médecin</td>
+                        <td>
+                            <button class="edit-btn">✏️ Modifier</button>
+                            <button class="delete-btn" onclick="deleteRow(this)">🗑 Supprimer</button>
+                            <button class="view-btn">👁 Voir</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Paramétrage de l'application -->
+            <section class="settings">
+                <h2>Paramétrage de l'Application</h2>
+                <form id="settingsForm">
+                    <label for="theme">Thème :</label>
+                    <select id="theme">
+                        <option value="clair">Clair</option>
+                        <option value="sombre">Sombre</option>
+                    </select>
+                    
+                    <label for="notif">Notifications :</label>
+                    <select id="notif">
+                        <option value="actives">Actives</option>
+                        <option value="desactives">Désactivées</option>
+                    </select>
+                    
+                    <button type="submit">Enregistrer les Paramètres</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <!-- Pop-up pour l'ajout d'un utilisateur -->
+    <div class="popup-container" id="popup">
+        <div class="popup">
+            <h2>Ajouter un Utilisateur</h2>
+            <label>Nom:</label>
+            <input type="text" id="nom">
+            <label>Prenom:</label>
+            <input type="text" id="prenom">
+            <label>Email:</label>
+            <input type="email" id="email">
+            <label>Rôle:</label>
+            <select id="role">
+                <option value="medecin">Médecin</option>
+                <option value="infirmier">Infirmier</option>
+                <option value="specialiste">Spécialiste</option>
+            </select>
+            <button onclick="addUser()">Ajouter</button>
+            <button onclick="closePopup()">Annuler</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("searchInput").addEventListener("keyup", function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll(".users-table tbody tr");
+            rows.forEach(row => {
+                let name = row.cells[0].textContent.toLowerCase();
+                let email = row.cells[1].textContent.toLowerCase();
+                row.style.display = (name.includes(filter) || email.includes(filter)) ? "" : "none";
+            });
+        });
+
+        function openPopup() {
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        function addUser() {
+            let nom = document.getElementById("nom").value;
+            let prenom = document.getElementById("prenom").value;
+            let email = document.getElementById("email").value;
+            let role = document.getElementById("role").value;
+            
+            if(nom && email) {
+                let table = document.getElementById("usersBody");
+                let row = table.insertRow();
+                row.innerHTML = `<td>${nom}</td><td>${prenom}</td><td>${email}</td><td>${role}</td>
+                                <td><button class="edit-btn">✏️ Modifier</button>
+                                <button class="delete-btn" onclick="deleteRow(this)">🗑 Supprimer</button>
+                                <button class="view-btn">👁 Voir</button></td>`;
+                closePopup();
+            }
+        }
+
+        function deleteRow(button) {
+            let row = button.parentElement.parentElement;
+            row.remove();
+        }
+        document.getElementById("settingsForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: "Paramètres enregistrés !",
+                text: "Les modifications ont été sauvegardées.",
+                icon: "success"
+            });
+        });
+    </script>
+</body>
+</html>

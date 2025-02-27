@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export des Données</title>
+    <link rel="stylesheet" href="css/save.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsPDF/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>GEST-PATIENT</h2>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Tableau de bord</a></li>
+                    <li><a href="patients.html"><i class="fa-solid fa-user-injured"></i> Gestion des patients</a></li>
+                    <li><a href="suivi.html"><i class="fa-solid fa-heart-pulse"></i> Suivi des paramètres vitaux</a></li>
+                    <li><a href="statistiques.html"><i class="fa-solid fa-chart-line"></i> Statistiques & Analyses</a></li>
+                    <li><a href="utilisateurs.html"><i class="fa-solid fa-users"></i> Gestion des utilisateurs</a></li>
+                    <li><a href="admin.html"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                    <li><a href="sauvegarde.html"><i class="fa-solid fa-file-export"></i> Export des Données</a></li>
+                </ul>  
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Export des Données</h1>
+            </header>
+
+            <section class="export-options">
+                <h2>Options d'Exportation</h2>
+                <button onclick="exportCSV()">📄 Exporter en CSV</button>
+                <button onclick="exportPDF()">📄 Exporter en PDF</button>
+            </section>
+
+            <section class="data-preview">
+                <h2>Aperçu des Données</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Âge</th>
+                            <th>Température</th>
+                            <th>Rythme Cardiaque</th>
+                            <th>Saturation O2</th>
+                            <th>Pression Artérielle</th>
+                            <th>Poids</th>
+                            <th>Taille</th>
+                            <th>Fréquence Respiratoire</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTable">
+                        <tr>
+                            <td>1</td>
+                            <td>Dupont</td>
+                            <td>Jean</td>
+                            <td>45</td>
+                            <td>36.7°C</td>
+                            <td>72 bpm</td>
+                            <td>98%</td>
+                            <td>120/80</td>
+                            <td>75 kg</td>
+                            <td>1.75 m</td>
+                            <td>16 c/min</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function exportCSV() {
+            let data = [];
+            document.querySelectorAll("#dataTable tr").forEach(row => {
+                let rowData = [];
+                row.querySelectorAll("td").forEach(cell => rowData.push(cell.innerText));
+                data.push(rowData);
+            });
+            let csv = Papa.unparse({ data: data });
+            let blob = new Blob([csv], { type: "text/csv" });
+            let a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "export_patients.csv";
+            a.click();
+            Swal.fire("Succès", "Les données des patients ont été exportées en CSV", "success");
+        }
+
+        function exportPDF() {
+            const { jsPDF } = window.jspdf;
+            let doc = new jsPDF();
+            doc.text("Export des Données Patients", 10, 10);
+            let rows = [];
+            document.querySelectorAll("#dataTable tr").forEach(row => {
+                let rowData = [];
+                row.querySelectorAll("td").forEach(cell => rowData.push(cell.innerText));
+                rows.push(rowData);
+            });
+            doc.autoTable({ head: [['ID', 'Nom', 'Prénom', 'Âge', 'Température', 'Rythme Cardiaque', 'Saturation O2', 'Pression Artérielle', 'Poids', 'Taille', 'Fréquence Respiratoire']], body: rows });
+            doc.save("export_patients.pdf");
+            Swal.fire("Succès", "Les données des patients ont été exportées en PDF", "success");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord</title>
+    <link rel="stylesheet" href="css/dashb.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">GEST-PATIENT</div>
+            <div class="profile">
+                <img src="avatar.png" alt="Avatar">
+                <p>PATIENT-NOM patient-prenom</p>
+            </div>
+            <nav>
+                <input type="text" placeholder="Search..." class="search-bar">
+                <ul>
+                    <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Tableau de bord</a></li>
+                    <li><a href="patients.html"><i class="fa-solid fa-user-injured"></i> Gestion des patients</a></li>
+                    <li><a href="suivi.html"><i class="fa-solid fa-heart-pulse"></i> Suivi des paramètres vitaux</a></li>
+                    <li><a href="statistiques.html"><i class="fa-solid fa-chart-line"></i> Statistiques & Analyses</a></li>
+                    <li><a href="utilisateurs.html"><i class="fa-solid fa-users"></i> Gestion des utilisateurs</a></li>
+                    <li><a href="admin.html"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                    <li><a href="sauvegarde.html"><i class="fa-solid fa-file-export"></i> Export des Données</a></li>
+                </ul>                
+            </nav>
+        </aside>
+        <main class="content">
+            <header class="header">
+                <div class="user-info">PATIENT-NOM patient-prenom</div>
+                <div class="icons">
+                    <span>🔔</span>
+                    <span>📩</span>
+                    <span>⚙️</span>
+                </div>
+            </header>
+            <section class="status-cards">
+                <div class="card green">Vaccins <span>100%</span></div>
+                <div class="card red">Groupe sanguin <span>AB+</span></div>
+                <div class="card blue">Taille (m) <span>1.8</span></div>
+                <div class="card blue">Masse corporelle (kg) <span>87</span></div>
+                <div class="card orange">IMC <span>26.85</span></div>
+                <div class="card red">Température (°C) <span>39</span></div>
+            </section>
+            <section class="data-section">
+                <div class="rendez-vous">
+                    <h2>Rendez-vous</h2>
+                    <table>
+                        <tr><th>Nom</th><th>Date</th><th>Heures</th><th>Hôpitaux</th></tr>
+                        <tr><td>Dr Demo</td><td>2024-07-16</td><td>16:30</td><td>Hôpital Douala</td></tr>
+                    </table>
+                </div>
+                <div class="charts">
+                    <canvas id="masseChart"></canvas>
+                    <canvas id="tailleChart"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const ctx1 = document.getElementById('masseChart').getContext('2d');
+        new Chart(ctx1, { type: 'line', data: { labels: ['Jan', 'Fev', 'Mar'], datasets: [{ label: 'Masse', data: [50, 75, 100], borderColor: 'blue', fill: false }] } });
+        const ctx2 = document.getElementById('tailleChart').getContext('2d');
+        new Chart(ctx2, { type: 'line', data: { labels: ['Jan', 'Fev', 'Mar'], datasets: [{ label: 'Taille', data: [1.6, 1.75, 1.8], borderColor: 'green', fill: false }] } });
+    </script>
+</body>
+</html>

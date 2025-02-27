@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Alertes</title>
+    <link rel="stylesheet" href="css/alerte.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>GEST-PATIENT</h2>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Tableau de bord</a></li>
+                    <li><a href="patients.html"><i class="fa-solid fa-user-injured"></i> Gestion des patients</a></li>
+                    <li><a href="suivi.html"><i class="fa-solid fa-heart-pulse"></i> Suivi des paramètres vitaux</a></li>
+                    <li><a href="statistiques.html"><i class="fa-solid fa-chart-line"></i> Statistiques & Analyses</a></li>
+                    <li><a href="utilisateurs.html"><i class="fa-solid fa-users"></i> Gestion des utilisateurs</a></li>
+                    <li><a href="admin.html"><i class="fa-solid fa-user-shield"></i> Administration</a></li>
+                    <li><a href="sauvegarde.html"><i class="fa-solid fa-file-export"></i> Export des Données</a></li>
+                </ul>                
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Gestion des Alertes</h1>
+            </header>
+            <section class="alert-list">
+                <h2>Alertes en Temps Réel</h2>
+                <ul id="alertContainer">
+                    <li class="alert red">⚠ Pression Artérielle élevée !</li>
+                    <li class="alert yellow">⚠ Fréquence respiratoire anormale !</li>
+                    <li class="alert green">✔ Tous les paramètres sont stables.</li>
+                </ul>
+            </section>
+
+            <section class="config-thresholds">
+                <h2>Configuration des Seuils</h2>
+                <form id="configForm">
+                    <label for="pressionMax">Pression Artérielle Max (mmHg) :</label>
+                    <input type="number" id="pressionMax" value="140">
+
+                    <label for="frequenceMin">Fréquence Respiratoire Min (cycles/min) :</label>
+                    <input type="number" id="frequenceMin" value="12">
+
+                    <label for="frequenceMax">Fréquence Respiratoire Max (cycles/min) :</label>
+                    <input type="number" id="frequenceMax" value="20">
+
+                    <button type="submit">Enregistrer</button>
+                </form>
+            </section>
+
+            <section class="notifications">
+                <h2>Envoi de Notifications</h2>
+                <form id="notificationForm">
+                    <label for="message">Message :</label>
+                    <textarea id="message" placeholder="Saisissez votre message..." required></textarea>
+                    
+                    <label for="type">Type de notification :</label>
+                    <select id="type">
+                        <option value="popup">Pop-up</option>
+                        <option value="email">Email</option>
+                        <option value="sms">SMS</option>
+                    </select>
+                    
+                    <button type="submit">Envoyer la Notification</button>
+                </form>
+            </section>
+
+            <section class="notification-history">
+                <h2>Historique des Notifications</h2>
+                <ul id="notificationList"></ul>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById("notificationForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            let message = document.getElementById("message").value;
+            let type = document.getElementById("type").value;
+            let notificationList = document.getElementById("notificationList");
+        
+            if (!message.trim()) {
+                Swal.fire({
+                    title: "Erreur",
+                    text: "Le message ne peut pas être vide.",
+                    icon: "error"
+                });
+                return;
+            }
+        
+            let notificationTypeText = type === "popup" ? "🔔 Pop-up" : type === "email" ? "📧 Email" : "📱 SMS";
+        
+            let listItem = document.createElement("li");
+            listItem.innerHTML = `<strong>${notificationTypeText}</strong> : ${message} <button class="respond-btn">Répondre</button>`;
+            notificationList.prepend(listItem);
+        
+            if (type === "popup") {
+                Swal.fire({
+                    title: "Notification envoyée !",
+                    text: message,
+                    icon: "info"
+                });
+            } else if (type === "email") {
+                alert("Email envoyé : " + message);
+            } else if (type === "sms") {
+                alert("SMS envoyé : " + message);
+            }
+        
+            document.getElementById("message").value = "";
+        });
+
+        document.getElementById("notificationList").addEventListener("click", function(event) {
+            if (event.target.classList.contains("respond-btn")) {
+                let response = prompt("Réponse de l'agent :");
+        
+                if (response && response.trim() !== "") {
+                    let responseItem = document.createElement("p");
+                    responseItem.style.color = "green";
+                    responseItem.style.marginLeft = "20px";
+                    responseItem.innerHTML = `📝 Réponse : ${response}`;
+                    event.target.parentElement.appendChild(responseItem);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
