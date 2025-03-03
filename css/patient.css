@@ -350,6 +350,32 @@ header {
     display: none;
 }
 
+/* Style pour le bouton "Détails" */
+.details-btn {
+    background-color: #0056b3;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.details-btn:hover {
+    background-color: #003d73;
+}
+
+/* Cacher les informations initialement */
+.hidden-info {
+    display: none;
+}
+
+/* Afficher les informations supplémentaires au clic */
+.show-details .hidden-info {
+    display: block;
+}
+
 @media (max-width: 768px) {
     .dashboard-container {
         flex-direction: column;
@@ -393,5 +419,49 @@ header {
     .popup {
         width: 90%;
         padding: 15px;
+    }
+}
+
+/* Rendre le tableau réactif */
+.patients-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    overflow-x: auto; /* Permet de faire défiler le tableau horizontalement */
+    display: block;  /* Nécessaire pour activer le défilement horizontal */
+}
+
+.patients-table th, .patients-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    font-size: 16px; /* Taille de la police initiale */
+}
+
+/* Réduire la taille de la police et ajuster les paddings sur les petits écrans */
+@media (max-width: 768px) {
+    .patients-table {
+        font-size: 14px;  /* Réduit la taille de la police pour une meilleure lisibilité */
+    }
+    .patients-table th, .patients-table td {
+        padding: 8px;  /* Réduit le padding pour que le contenu tienne dans les cellules */
+    }
+}
+
+/* Pour les écrans très petits (mobiles) */
+@media (max-width: 480px) {
+    .patients-table {
+        font-size: 12px;  /* Réduit davantage la taille de la police */
+    }
+    .patients-table th, .patients-table td {
+        padding: 6px;  /* Réduit encore le padding */
+    }
+
+    /* Masquer certaines informations dans les colonnes "Capteurs" et "Actions" */
+    .patients-table .capteurs-container,
+    .patients-table .edit-btn,
+    .patients-table .delete-btn,
+    .patients-table .view-btn {
+        display: none;  /* Masque ces colonnes sur petits écrans */
     }
 }
