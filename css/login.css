@@ -9,7 +9,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, #007BFF, #00C6FF);
+    background: linear-gradient(135deg, #e2e3e4, #00C6FF);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -118,9 +118,21 @@ h2 {
     transform: scale(1.05);
 }
 
-/* Responsive */
-@media (max-width: 450px) {
-    .login-box {
-        padding: 20px;
+.hidden {
+    display: none;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 480px) {
+    .login-container {
+        width: 90%;
+    }
+
+    .input-group input {
+        font-size: 12px;
+    }
+
+    .login-btn {
+        font-size: 14px;
     }
 }
